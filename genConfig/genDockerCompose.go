@@ -185,9 +185,9 @@ func GenService(dockerCompose *DockerCompose, domainName string, serviceName str
 			service.Command = "orderer"
 
 			service.Volumes = make([]string, 3)
-			service.Volumes[0] = "./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block"
-			service.Volumes[1] = "./crypto-config/ordererOrganizations/" + domainName + "/orderers/" + serviceHost + "." + domainName + "/msp:/var/hyperledger/orderer/msp"
-			service.Volumes[2] = "./crypto-config/ordererOrganizations/" + domainName + "/orderers/" + serviceHost + "." + domainName + "/tls/:/var/hyperledger/orderer/tls"
+			service.Volumes[0] = "~/hyperledger-fabric-swarm/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block"
+			service.Volumes[1] = "~/hyperledger-fabric-swarm/crypto-config/ordererOrganizations/" + domainName + "/orderers/" + serviceHost + "." + domainName + "/msp:/var/hyperledger/orderer/msp"
+			service.Volumes[2] = "~/hyperledger-fabric-swarm/crypto-config/ordererOrganizations/" + domainName + "/orderers/" + serviceHost + "." + domainName + "/tls/:/var/hyperledger/orderer/tls"
 			err := GenDeploy(service)
 			check(err)
 
@@ -210,7 +210,7 @@ func GenService(dockerCompose *DockerCompose, domainName string, serviceName str
 			service.Environment[4] = "FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA" + orgId + "_PRIVATE_KEY"
 			service.Command = "sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org" + orgId + "." + domainName + "-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA" + orgId + "_PRIVATE_KEY -b admin:adminpw -d'"
 			service.Volumes = make([]string, 1)
-			service.Volumes[0] = "./crypto-config/peerOrganizations/org" + orgId + "." + domainName + "/ca/:/etc/hyperledger/fabric-ca-server-config"
+			service.Volumes[0] = "~/hyperledger-fabric-swarm/crypto-config/peerOrganizations/org" + orgId + "." + domainName + "/ca/:/etc/hyperledger/fabric-ca-server-config"
 			err := GenDeploy(service)
 			check(err)
 
@@ -264,8 +264,8 @@ func GenService(dockerCompose *DockerCompose, domainName string, serviceName str
 			service.Command = "peer node start"
 			service.Volumes = make([]string, 3)
 			service.Volumes[0] = "/var/run/:/host/var/run/"
-			service.Volumes[1] = "./crypto-config/peerOrganizations/org" + orgNum + "." + domainName + "/peers/" + hostName + "/msp:/etc/hyperledger/fabric/msp"
-			service.Volumes[2] = "./crypto-config/peerOrganizations/org" + orgNum + "." + domainName + "/peers/" + hostName + "/tls:/etc/hyperledger/fabric/tls"
+			service.Volumes[1] = "~/hyperledger-fabric-swarm/crypto-config/peerOrganizations/org" + orgNum + "." + domainName + "/peers/" + hostName + "/msp:/etc/hyperledger/fabric/msp"
+			service.Volumes[2] = "~/hyperledger-fabric-swarm/crypto-config/peerOrganizations/org" + orgNum + "." + domainName + "/peers/" + hostName + "/tls:/etc/hyperledger/fabric/tls"
 			err := GenDeploy(service)
 			check(err)
 
@@ -294,10 +294,10 @@ func GenService(dockerCompose *DockerCompose, domainName string, serviceName str
 			service.Command = "sleep 3600"
 			service.Volumes = make([]string, 5)
 			service.Volumes[0] = "/var/run/:/host/var/run/"
-			service.Volumes[1] = "./chaincode/:/opt/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go"
-			service.Volumes[2] = "./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/"
-			service.Volumes[3] = "./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/"
-			service.Volumes[4] = "./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts"
+			service.Volumes[1] = "~/hyperledger-fabric-swarm/chaincode/:/opt/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go"
+			service.Volumes[2] = "~/hyperledger-fabric-swarm/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/"
+			service.Volumes[3] = "~/hyperledger-fabric-swarm/scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/"
+			service.Volumes[4] = "~/hyperledger-fabric-swarm/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts"
 			err := GenDeploy(service)
 			check(err)
 

@@ -103,22 +103,24 @@ This repository is for deploying Hyperledger Fabric on Swarm cluster easily.
 
 ### Get Hyperledger Fabric artifacts and binaries
 
-* As encryption keys and artifacts share same path, you need to put them on same location.
-  * In this case, the location is '/nfs-share' (I personally use NFS)
+* As encryption keys, chaincode folder and artifacts share same path, you need to put them on same location.
+  * In this case, the location on nfs-server is '/nfs-share'
   * For example,
 
 ```
-  $ mount 1.2.3.4:/nfs-share $PWD
+  $ mount 1.2.3.4:/nfs-share ~/hyperledger-fabric-swarm
   $ ls
-  channel-artifacts crypto-config
+  channel-artifacts crypto-config chaincode
 ```
+
+Make sure the shared folder is at `~/hyperledger-fabric-swarm`. This is the base base used by docker-compose files. If you choose another place do not forget to update the volumes on docker-compose fileds.
 
 ### Generate the artifacts
 
 * generate config file for your own configuration. For example,
 
 ```
-  # go get  gopkg.in/yaml.v2
+  go get  gopkg.in/yaml.v2
   yarn genConfig -domain agiletech.vn -Kafka 3 -Orderer 2 -Zookeeper 3 -Orgs 2 -Peer 1 -Tag :x86_64-1.1.0-preview
 ```
 
